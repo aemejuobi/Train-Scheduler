@@ -9,6 +9,18 @@ $(document).ready(function(){
       };
     firebase.initializeApp(config);
     var database = firebase.database();
+    var tableBody = $("tbody");
+    var minutesAway = 0;
+
+    database.ref().on("child_added", function(childSnapshot){
+        function hours(){
+            var hour = moment(childSnapshot.val().time).format('hh:mm');
+            console.log(hour);
+        }
+         hours();
+        tableBody.append("<tr><td>" + childSnapshot.val().name + "</td><td>" + childSnapshot.val().trainDestination + "</td><td>" + childSnapshot.val().freq + "</td><td>" +
+         minutesAway + "</td><td>" + childSnapshot.val().time + "</td></tr>");
+    });
 
     $("#submit").on("click", function(e){
         e.preventDefault();
@@ -16,8 +28,6 @@ $(document).ready(function(){
         var destination = $("#destination").val().trim();
         var trainTime = $("#trainTime").val().trim();
         var frequency = $("#frequency").val().trim();
-        var tableBody = $("tbody");
-        var minutesAway = 0;
 
         database.ref().push({
             name: trainName,
@@ -26,11 +36,8 @@ $(document).ready(function(){
             time: trainTime
         });
 
-        database.ref().on("child_added", function(childSnapshot){
-            
-            tableBody.append("<tr><td>" + childSnapshot.val().name + "</td><td>" + childSnapshot.val().trainDestination + "</td><td>" + childSnapshot.val().freq + "</td><td>" + minutesAway + "</td><td>" + childSnapshot.val().time + "</td></tr>");
-        });
         
+
     });
 });
 
