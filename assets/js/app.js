@@ -17,23 +17,22 @@ $(document).ready(function(){
         
         function hours(){
             var hour = moment(childSnapshot.val().time, "HH:mm").format('hh:mm a');
-            console.log(hour);
             return hour;
         }
         
-        function timeAway(){
-            var date = new Date();
-            var minutes = date.getMinutes();
-            console.log(minutes);
-        }
-        timeAway();
-
-        // minutesAway = childSnapshot.val().time - childSnapshot.val().frequency;
+        // function timeAway(){
+        //     var date = new Date();
+        //     var minutes = date.getTime();
+        //     console.log(minutes);
+        // }
+        // timeAway();
 
         tableBody.append("<tr><td>" + childSnapshot.val().name + "</td><td>" + childSnapshot.val().trainDestination + "</td><td>" + childSnapshot.val().freq + "</td><td>" +
          minutesAway + "</td><td>" + hours() + "</td></tr>");
     });
 
+
+    // 
     $("#submit").on("click", function(e){
         e.preventDefault();
         var trainName = $("#trainName").val().trim();
@@ -49,33 +48,6 @@ $(document).ready(function(){
         });
 
     });
+
+
 });
-
-
-
-
-// database.ref().push({
-//     employeeName: name,
-//     employeeRole: role,
-//     employeeStartDate: startDate,
-//     employeeMonthlyRate: monthlyRate
-// });
-
-// //Total billed is months worked multiplied by monthly rate
-
-
-
-// database.ref().on("child_added", function(childSnapshot){
-//     console.log(childSnapshot.val().employeeName);
-//     console.log(childSnapshot.val().employeeRole);
-//     console.log(childSnapshot.val().employeeStartDate);
-//     console.log(childSnapshot.val().employeeMonthlyRate);
-    
-//     $("#tableBody").append("<tr><td>" + childSnapshot.val().employeeName + "</td><td>" +  childSnapshot.val().employeeRole + "</td><td>" + childSnapshot.val().employeeStartDate + "</td><td class='something>" + "</td><td>" + childSnapshot.val().employeeMonthlyRate + "</td><td class='totalBilled'>" + "</td></tr>");
-//     
-// function monthsWorked(){
-//         var months = moment(childSnapshot.val().employeeStartDate).format("MM");
-//         console.log(months);
-//     }
-//     monthsWorked();
-// });
