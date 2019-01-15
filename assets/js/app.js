@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    var tableBody = $("tbody");
+    var minutesAway = 0;
     var config = {
         apiKey: "AIzaSyD8tez5HCZ9uof3_x--ExN2t5lDwRlUz7E",
         authDomain: "train-scheduler-9693d.firebaseapp.com",
@@ -9,17 +11,27 @@ $(document).ready(function(){
       };
     firebase.initializeApp(config);
     var database = firebase.database();
-    var tableBody = $("tbody");
-    var minutesAway = 0;
+    
 
     database.ref().on("child_added", function(childSnapshot){
+        
         function hours(){
-            var hour = moment(childSnapshot.val().time).format('hh:mm');
+            var hour = moment(childSnapshot.val().time, "HH:mm").format('hh:mm a');
             console.log(hour);
+            return hour;
         }
-         hours();
+        
+        function timeAway(){
+            var date = new Date();
+            var minutes = date.getMinutes();
+            console.log(minutes);
+        }
+        timeAway();
+
+        // minutesAway = childSnapshot.val().time - childSnapshot.val().frequency;
+
         tableBody.append("<tr><td>" + childSnapshot.val().name + "</td><td>" + childSnapshot.val().trainDestination + "</td><td>" + childSnapshot.val().freq + "</td><td>" +
-         minutesAway + "</td><td>" + childSnapshot.val().time + "</td></tr>");
+         minutesAway + "</td><td>" + hours() + "</td></tr>");
     });
 
     $("#submit").on("click", function(e){
@@ -32,11 +44,9 @@ $(document).ready(function(){
         database.ref().push({
             name: trainName,
             trainDestination: destination,
-            freq: frequency,
+            freq: parseInt(frequency),
             time: trainTime
         });
-
-        
 
     });
 });
